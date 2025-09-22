@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Store API Test</title>
+</head>
+<body>
+
+
+    <script>
+        fetch('https://petstore.swagger.io/v2/pet/findByStatus?status=pending')
+            .then(response => {
+                if (!response.ok) {
+                    console.log('GET sorğusu uğursuz oldu. Status:', response.status);
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data) {
+                    console.log('--- GET SORĞUSUNUN CAVABI ---');
+                    console.log('Pending statuslu petlər:', data);
+                }
+            })
+            .catch(error => {
+                console.error('GET sorğusu zamanı şəbəkə xətası baş verdi:', error);
+            });
+
+
+        const yeniPet = {
+            id: 1004, 
+            category: {
+                id: 1,
+                name: 'dogs'
+            },
+            name: 'Lucky',
+            photoUrls: [
+                'https://example.com/lucky.jpg'
+            ],
+            tags: [
+                {
+                    id: 0,
+                    name: 'labrador'
+                }
+            ],
+            status: 'available'
+        };
+
+        fetch('https://petstore.swagger.io/v2/pet', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(yeniPet)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log('POST sorğusu uğursuz oldu. Status:', response.status);
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data) {
+                    console.log('\n--- POST SORĞUSUNUN CAVABI ---');
+                    console.log('Əlavə olunan pet:', data);
+                }
+            })
+            .catch(error => {
+                console.error('POST sorğusu zamanı şəbəkə xətası baş verdi:', error);
+            });
+    </script>
+
+</body>
+</html>
